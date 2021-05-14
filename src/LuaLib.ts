@@ -138,7 +138,13 @@ export function loadLuaLibFeatures(features: Iterable<LuaLibFeature>, emitHost: 
         load(feature);
     }
 
-    return result;
+    return `local _ENV = setmetatable({}, { __index = _G })
+pcall(function() setfenv(1, _ENV) end)
+
+${result}
+
+return _ENV
+`;
 }
 
 let luaLibBundleContent: string;

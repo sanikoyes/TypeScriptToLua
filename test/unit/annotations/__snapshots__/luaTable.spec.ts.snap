@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Cannot extend LuaTable class ("class Ext extends Table {}"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 Ext = __TS__Class()
 Ext.name = \\"Ext\\"
 __TS__ClassExtends(Ext, Table)"
@@ -10,7 +12,9 @@ __TS__ClassExtends(Ext, Table)"
 exports[`Cannot extend LuaTable class ("class Ext extends Table {}"): diagnostics 1`] = `"main.ts(11,19): error TSTL: Cannot extend classes with the '@luaTable' annotation."`;
 
 exports[`Cannot extend LuaTable class ("const c = class Ext extends Table {}"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 c = (function()
     local Ext = __TS__Class()
     Ext.name = \\"Ext\\"
@@ -70,7 +74,9 @@ exports[`Cannot use ElementAccessExpression on a LuaTable ("tbl[\\"set\\"](\\"fi
 exports[`Cannot use ElementAccessExpression on a LuaTable ("tbl[\\"set\\"](\\"field\\")"): diagnostics 2`] = `"main.ts(13,1): error TSTL: @luaTable cannot be accessed dynamically."`;
 
 exports[`Cannot use instanceof on a LuaTable class ("tbl instanceof Table"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 __TS__InstanceOf(tbl, Table)"
 `;
 
@@ -133,7 +139,9 @@ exports[`Forbidden LuaTable use ("tbl.set(\\"field\\", 0, 1)"): diagnostics 1`] 
 exports[`Forbidden LuaTable use ("tbl.set(\\"field\\", 0, 1)"): diagnostics 2`] = `"main.ts(13,1): error TSTL: Invalid @luaTable usage: Expected 2 arguments, but got 3."`;
 
 exports[`LuaTable classes must be ambient ("/** @luaTable */ class Table {}"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 Table = __TS__Class()
 Table.name = \\"Table\\"
 function Table.prototype.____constructor(self)
@@ -143,7 +151,9 @@ end"
 exports[`LuaTable classes must be ambient ("/** @luaTable */ class Table {}"): diagnostics 1`] = `"main.ts(1,18): error TSTL: Classes with the '@luaTable' annotation must be ambient."`;
 
 exports[`LuaTable classes must be ambient ("/** @luaTable */ const c = class Table {}"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 c = (function()
     local Table = __TS__Class()
     Table.name = \\"Table\\"
@@ -156,7 +166,9 @@ end)()"
 exports[`LuaTable classes must be ambient ("/** @luaTable */ const c = class Table {}"): diagnostics 1`] = `"main.ts(1,28): error TSTL: Classes with the '@luaTable' annotation must be ambient."`;
 
 exports[`LuaTable classes must be ambient ("/** @luaTable */ export class Table {}"): code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 ____exports.Table = __TS__Class()
 local Table = ____exports.Table

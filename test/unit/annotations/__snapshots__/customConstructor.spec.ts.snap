@@ -1,7 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IncorrectUsage: code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 function ____exports.__main(self)
     local Point2D = __TS__Class()

@@ -1,14 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`extension removed: code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 B = __TS__Class()
 B.name = \\"B\\"
 __TS__ClassExtends(B, A)"
 `;
 
 exports[`extension removed: code 2`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 B = __TS__Class()
 B.name = \\"B\\"
 __TS__ClassExtends(B, A)"
@@ -36,7 +40,9 @@ end"
 exports[`phantom removed: diagnostics 1`] = `"main.ts(3,9): error TSTL: '@phantom' has been removed and will no longer have any effect.See https://typescripttolua.github.io/docs/advanced/compiler-annotations#phantom for more information."`;
 
 exports[`pureAbstract removed: code 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 ClassB = __TS__Class()
 ClassB.name = \\"ClassB\\"
 __TS__ClassExtends(ClassB, ClassA)"

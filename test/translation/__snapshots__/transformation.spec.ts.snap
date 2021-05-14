@@ -58,7 +58,9 @@ return ____exports"
 `;
 
 exports[`Transformation (methodRestArguments) 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 MyClass = __TS__Class()
 MyClass.name = \\"MyClass\\"
 function MyClass.prototype.____constructor(self)
@@ -74,7 +76,9 @@ return ____exports"
 `;
 
 exports[`Transformation (modulesClassExport) 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 ____exports.TestClass = __TS__Class()
 local TestClass = ____exports.TestClass
@@ -85,7 +89,9 @@ return ____exports"
 `;
 
 exports[`Transformation (modulesClassWithMemberExport) 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 ____exports.TestClass = __TS__Class()
 local TestClass = ____exports.TestClass

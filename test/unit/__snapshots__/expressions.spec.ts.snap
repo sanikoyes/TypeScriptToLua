@@ -559,7 +559,9 @@ return ____exports"
 `;
 
 exports[`Unary expressions basic ("delete tbl.test") 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 function ____exports.__main(self)
     __TS__Delete(tbl, \\"test\\")
@@ -568,7 +570,9 @@ return ____exports"
 `;
 
 exports[`Unary expressions basic ("delete tbl['test']") 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 function ____exports.__main(self)
     __TS__Delete(tbl, \\"test\\")
@@ -593,7 +597,9 @@ return ____exports"
 `;
 
 exports[`Unary expressions basic ("let a = delete tbl.test") 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 function ____exports.__main(self)
     local a = __TS__Delete(tbl, \\"test\\")
@@ -602,7 +608,9 @@ return ____exports"
 `;
 
 exports[`Unary expressions basic ("let a = delete tbl['test']") 1`] = `
-"require(\\"lualib_bundle\\");
+"local lualib_bundle = require(\\"lualib_bundle\\");
+local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
 local ____exports = {}
 function ____exports.__main(self)
     local a = __TS__Delete(tbl, \\"test\\")

@@ -210,10 +210,19 @@ export class LuaPrinter {
             (luaLibImport === LuaLibImportKind.Require && file.luaLibFeatures.size > 0)
         ) {
             // Require lualib bundle
-            header += 'require("lualib_bundle");\n';
+            header += 'local lualib_bundle = require("lualib_bundle");\n';
+            header += `local _ENV = setmetatable({}, { __index = lualib_bundle })
+pcall(function() setfenv(1, _ENV) end)
+`;
+            // for (const feature of file.luaLibFeatures) {
+            //     header += `local __TS__${feature} = lualib_bundle.__TS__${feature}\n`;
+            // }
         } else if (luaLibImport === LuaLibImportKind.Inline && file.luaLibFeatures.size > 0) {
             // Inline lualib features
             header += "-- Lua Library inline imports\n";
+            // for (const feature of file.luaLibFeatures) {
+            //     header += `local __TS__${feature}\n`;
+            // }
             header += loadLuaLibFeatures(file.luaLibFeatures, this.emitHost);
         }
 
