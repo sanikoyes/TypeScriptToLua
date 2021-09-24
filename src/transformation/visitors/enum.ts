@@ -20,6 +20,23 @@ export function tryGetConstEnumValue(
     }
 }
 
+function transformComments(node: ts.Node) {
+    try {
+        if (node.pos < 0 || node.end <= node.pos) {
+            return [];
+        }
+        const fullText = node.getFullText();
+        const text = node.getText();
+        const comments = fullText.substring(0, fullText.length - text.length).trim();
+        if (comments.length > 0) {
+            return comments.split("\n").map(value => value.replace(/^\/\*\*|\s*\*\/|^\s*\*|^\/\//g, ""));
+        }
+    } catch (e) {
+        // ignored
+    }
+    return [];
+}
+
 export const transformEnumDeclaration: FunctionVisitor<ts.EnumDeclaration> = (node, context) => {
     if (ts.getCombinedModifierFlags(node) & ts.ModifierFlags.Const && !context.options.preserveConstEnums) {
         return undefined;
@@ -37,6 +54,12 @@ export const transformEnumDeclaration: FunctionVisitor<ts.EnumDeclaration> = (no
             lua.SyntaxKind.OrOperator
         );
         result.push(...createLocalOrExportedOrGlobalDeclaration(context, name, table, node));
+
+        const comments = transformComments(node);
+        if (result.length > 0 && comments.length > 0) {
+            const firstLuaStatement = result[0];
+            firstLuaStatement.leadingComments = comments;
+        }
     }
 
     const enumReference = context.transformExpression(node.name);
@@ -66,6 +89,7 @@ export const transformEnumDeclaration: FunctionVisitor<ts.EnumDeclaration> = (no
         } else {
             valueExpression = lua.createNilLiteral();
         }
+        const comments = transformComments(member);
 
         if (membersOnly) {
             const enumSymbol = context.checker.getSymbolAtLocation(node.name);
@@ -82,9 +106,17 @@ export const transformEnumDeclaration: FunctionVisitor<ts.EnumDeclaration> = (no
                     exportScope
                 )
             );
+
+            if (comments.length > 0) {
+                result[result.length - 1].leadingComments = comments;
+            }
         } else {
             const memberAccessor = lua.createTableIndexExpression(enumReference, memberName);
-            result.push(lua.createAssignmentStatement(memberAccessor, valueExpression, member));
+            const stmt = lua.createAssignmentStatement(memberAccessor, valueExpression, member)
+            if (comments.length > 0) {
+                stmt.leadingComments = comments;
+            }
+            result.push(stmt);
 
             if (!lua.isStringLiteral(valueExpression) && !lua.isNilLiteral(valueExpression)) {
                 const reverseMemberAccessor = lua.createTableIndexExpression(enumReference, memberAccessor);

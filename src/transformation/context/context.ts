@@ -69,9 +69,32 @@ export class TransformationContext {
         const visitor = this.currentNodeVisitors.pop()!;
         const result = unwrapVisitorResult(visitor.transform(node, this));
 
+        const comments = this.transformComments(node);
+        if (result.length > 0 && comments.length > 0) {
+            const firstLuaStatement = result[0];
+            (firstLuaStatement as lua.Statement).leadingComments = comments;
+        }
+
         this.currentNodeVisitors = previousNodeVisitors;
 
         return result;
+    }
+
+    private transformComments(node: ts.Node) {
+        try {
+            if (node.pos < 0 || node.end <= node.pos) {
+                return [];
+            }
+            const fullText = node.getFullText();
+            const text = node.getText();
+            const comments = fullText.substring(0, fullText.length - text.length).trim();
+            if (comments.length > 0) {
+                return comments.split("\n").map(value => value.replace(/^\/\*\*|\s*\*\/|^\s*\*|^\/\//g, ""));
+            }
+        } catch (e) {
+            // ignored
+        }
+        return [];
     }
 
     public superTransformNode(node: ts.Node): lua.Node[] {
